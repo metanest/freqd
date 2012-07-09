@@ -7,10 +7,10 @@ freqd は、FreeBSD 標準の powerd が自分の環境でうまく働いてく�
 決定と、安全性の両方を実現しています。特権状態で動くコードは、初期設定の後は
 CPU 周波数変更以外の機能を持ちません。
 ## インストールと実行
- $ ./configure
- $ make
- $ su
- # ./freqd
+    $ ./configure
+    $ make
+    $ su
+    # ./freqd
 ## コンポーネント
 * freqd.awk - top コマンドを実行して CPU 負荷を読み取り、動作周波数の変更を決定します。変更したい周波数を標準出力に出力します。
 * freqd - 内部で子プロセスとして freqd.awk を実行します。freqd.awk が標準出力に出力してくる値を読み取って、sysctl を実行します。sysctl の実行のために、システム管理特権で起動されなければなりません。freqd.awk は特権を放棄して nobody で実行します。
