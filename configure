@@ -1,0 +1,17 @@
+#!/bin/sh
+
+## set this if you wont to change location
+#base_path='/usr/local/freqd'
+
+: "${base_path=`pwd`}"
+
+if [ `echo ${base_path} | sed 's/^\(.\).*/\1/'` != '/' ]
+then
+	echo 'base_path must be absolute path' 1>&2
+	echo '#error configure failed' >> config.h
+	exit
+fi
+
+cat > config.h <<EOF
+#define BASE_PATH "${base_path}"
+EOF
