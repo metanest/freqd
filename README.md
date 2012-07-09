@@ -45,6 +45,7 @@ freqd では top コマンドの、CPU 状態表示から、CPU のアイドル�
     
     function sortn(arr)        # sort -n コマンドを利用してソートをおこなう
     function getidles(result)  # top コマンドから、CPU の（マルチコアならそれぞれの）idle パーセンテージを得る
+                               # awk のパイプラインの仕様により、top は実行させっぱなしである
     function getfreq()         # 現在の周波数を取得
     function getfreqlist()     # 設定可能な周波数の配列を得る
     function setfreq(freq)     # 周波数の設定（freqd から利用する時は print するだけ）
@@ -58,6 +59,10 @@ freqd では top コマンドの、CPU 状態表示から、CPU のアイドル�
     	for (;;) {                                   # メインループ
     		load[3] = load[2] ; load[2] = load[1]
     
+    		               # シングルスレッドのプログラムでは、特定のコアだけ
+    		               # 高負荷ということがあるので、最小値を採る。
+    		               # プロセス切り替えの影響が出ないよう、top の更新
+    		               # インターバルは最短（ 1 秒）にしている。
     		getidles(idles)
     		load[1] = (100.0 - min(idles)) / 100.0
     
