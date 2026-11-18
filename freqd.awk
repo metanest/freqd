@@ -3,6 +3,7 @@
 function min(arr,    minval, i) {
 	minval = INFINITY
 	for (i in arr) {
+		i += 0
 		if (arr[i] < minval) {
 			minval = arr[i]
 		}
@@ -13,6 +14,7 @@ function min(arr,    minval, i) {
 function min_index(arr,    idx, i) {
 	idx = INFINITY
 	for (i in arr) {
+		i += 0
 		if (i < idx) {
 			idx = i
 		}
@@ -58,8 +60,10 @@ function join(arr, sep,    i, result) {
 }
 
 function sortn(arr,    cmd, tmp, tmpfile, i) {
-	"mktemp -t freqd" | getline
+	cmd = "mktemp -t freqd"
+	cmd | getline
 	tmpfile = $1
+	close(cmd)
 
 	tmp = join(arr, "\n")
 	print tmp >tmpfile
@@ -92,7 +96,7 @@ function getidles(result,    i, flag) {
 }
 
 function getfreq(    cmd) {
-	cmd = "sysctl dev.cpu.0.freq"
+	cmd = "/sbin/sysctl dev.cpu.0.freq"
 	cmd | getline
 	close(cmd)
 
@@ -100,7 +104,7 @@ function getfreq(    cmd) {
 }
 
 function getfreqlist(    cmd, result, tmp, i) {
-	cmd = "sysctl dev.cpu.0.freq_levels"
+	cmd = "/sbin/sysctl dev.cpu.0.freq_levels"
 	cmd | getline
 	close(cmd)
 
