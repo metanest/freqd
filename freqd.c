@@ -42,33 +42,33 @@ main(void)
 
 			/* discard privilege */
 			{
-				gid_t nobody_gid;
-				uid_t nobody_uid;
+				gid_t daemon_gid;
+				uid_t daemon_uid;
 
 				{
 					struct group *gr;
-					gr = getgrnam("nobody");
+					gr = getgrnam("daemon");
 					if (! gr) {
 						perror("D");
 						exit(EXIT_FAILURE);
 					}
-					nobody_gid = gr->gr_gid;
+					daemon_gid = gr->gr_gid;
 				}
 				{
 					struct passwd *pw;
-					pw = getpwnam("nobody");
+					pw = getpwnam("daemon");
 					if (! pw) {
 						perror("E");
 						exit(EXIT_FAILURE);
 					}
-					nobody_uid = pw->pw_uid;
+					daemon_uid = pw->pw_uid;
 				}
 
-				if (setgid(nobody_gid)) {
+				if (setgid(daemon_gid)) {
 					perror("F");
 					exit(EXIT_FAILURE);
 				}
-				if (setuid(nobody_uid)) {
+				if (setuid(daemon_uid)) {
 					perror("G");
 					exit(EXIT_FAILURE);
 				}
